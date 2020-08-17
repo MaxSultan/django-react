@@ -38,4 +38,7 @@ class Rating(models.Model):
         ]
     )
     comment = models.CharField(max_length=200, default='')
-    movie = models.ForeignKey(Movie, default=1, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, default=1, related_name='ratings',on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.number} {self.comment}'
