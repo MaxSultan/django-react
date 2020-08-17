@@ -1,8 +1,15 @@
 from rest_framework import serializers
 from movies.models import Movie, Rating
 
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Rating
+        fields = ['id','number', 'comment', 'movie']
+
 class MovieSerializer(serializers.ModelSerializer):
-    ratings = serializers.StringRelatedField(many=True)
+    # ratings = serializers.StringRelatedField(many=True)
+    ratings = RatingSerializer(many=True)
     class Meta: 
         model = Movie
         fields = ('id','title', 'year', 'rated', 'released_on', 'genre', 'director', 'plot', 'rating_avg', 'ratings')
@@ -14,7 +21,3 @@ class MovieSerializer(serializers.ModelSerializer):
                 Rating.objects.create(movie=movie, **rating_data)
             return movie
 
-class RatingSerializer(serializers.ModelSerializer):
-    class Meta: 
-        model = Rating
-        fields = ['id','number', 'comment', 'movie']
